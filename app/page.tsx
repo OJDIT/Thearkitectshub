@@ -2,11 +2,28 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { HeroImageCarousel } from "@/components/hero-image-carousel"
-import { ArrowRight, Building2, Users, BookOpen, Lightbulb } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { createClient } from "@/lib/supabase/server"
 
 export default async function HomePage() {
   const supabase = await createClient()
+  const featuredVideos = [
+    {
+      id: "-vXXUSkNLt4",
+      href: "https://youtu.be/-vXXUSkNLt4?si=Qx5aVACLbUNbPqvm",
+      title: "Housing and Young People in Nigeria",
+    },
+    {
+      id: "Dm__H2wozFU",
+      href: "https://youtu.be/Dm__H2wozFU?si=wW9xJxDOZB0_Islm",
+      title: "The Struggles of the Young Architect",
+    },
+    {
+      id: "Dic6aTpHwfs",
+      href: "https://youtu.be/Dic6aTpHwfs?si=5a15j2J2WsPhzbe8",
+      title: "What Exactly is Real Estate Becoming",
+    },
+  ]
 
   // Fetch featured projects with error handling
   let featuredProjects = null
@@ -166,43 +183,30 @@ export default async function HomePage() {
               Everything You Need to Explore Architecture
             </h2>
           </div>
-          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:grid-cols-4 max-w-2xl lg:max-w-none">
-            <div className="flex flex-col items-start p-6 rounded-lg bg-card">
-              <div className="rounded-lg bg-primary/5 p-3 mb-4">
-                <Building2 className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">Curated Projects</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Explore a carefully selected collection of contemporary architectural projects from around the world.
-              </p>
-            </div>
-            <div className="flex flex-col items-start p-6 rounded-lg bg-card">
-              <div className="rounded-lg bg-primary/5 p-3 mb-4">
-                <Users className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">Architect Profiles</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Connect with talented architects and designers shaping the future of the built environment.
-              </p>
-            </div>
-            <div className="flex flex-col items-start p-6 rounded-lg bg-card">
-              <div className="rounded-lg bg-primary/5 p-3 mb-4">
-                <BookOpen className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">Editorial Blog</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Read insightful articles about design theory, case studies, and industry trends.
-              </p>
-            </div>
-            <div className="flex flex-col items-start p-6 rounded-lg bg-card">
-              <div className="rounded-lg bg-primary/5 p-3 mb-4">
-                <Lightbulb className="h-6 w-6 text-primary" />
-              </div>
-              <h3 className="text-lg font-semibold text-foreground mb-2">Design Resources</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                Access guides, templates, and tools to support your architectural practice.
-              </p>
-            </div>
+          <div className="mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 max-w-2xl lg:max-w-none">
+            {featuredVideos.map((video) => (
+              <a
+                key={video.id}
+                href={video.href}
+                target="_blank"
+                rel="noreferrer"
+                className="group overflow-hidden rounded-lg bg-card transition-all hover:shadow-lg"
+              >
+                <div className="aspect-video overflow-hidden bg-muted">
+                  <img
+                    src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                    alt={video.title}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-foreground">{video.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                    Watch on YouTube
+                  </p>
+                </div>
+              </a>
+            ))}
           </div>
         </div>
       </section>

@@ -11,8 +11,8 @@ import { Instagram, Mail, Music2, Phone, Twitter, Youtube } from "lucide-react"
 
 const socialLinks = [
   { name: "Instagram", href: "https://www.instagram.com/the.arkitecktshub?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==", icon: Instagram },
-  { name: "X", href: "#", icon: Twitter },
-  { name: "TikTok", href: "#", icon: Music2 },
+  { name: "X", href: "https://x.com/ArkitecktsHub", icon: Twitter },
+  { name: "TikTok", href: "https://www.tiktok.com/@the.arkitecktshub?_r=1&_t=ZS-95okRloCx6K", icon: Music2 },
   { name: "YouTube", href: "https://www.youtube.com/@thearkitecktshub", icon: Youtube },
 ]
 
