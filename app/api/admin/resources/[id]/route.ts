@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { revalidatePath } from "next/cache"
 import { requireAdmin } from "@/lib/admin-auth"
 import { createAdminClient } from "@/lib/supabase/admin"
 
@@ -40,6 +41,9 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
     return NextResponse.json({ error: `Failed to update resource: ${error.message}` }, { status: 500 })
   }
 
+  revalidatePath("/resources")
+  revalidatePath("/admin/resources")
+
   return NextResponse.json({ success: true })
 }
 
@@ -56,6 +60,9 @@ export async function DELETE(_request: NextRequest, context: { params: Promise<{
   if (error) {
     return NextResponse.json({ error: `Failed to delete resource: ${error.message}` }, { status: 500 })
   }
+
+  revalidatePath("/resources")
+  revalidatePath("/admin/resources")
 
   return NextResponse.json({ success: true })
 }

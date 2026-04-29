@@ -3,6 +3,8 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { AlertCircle, Edit2, Loader2, Plus, Trash2 } from "lucide-react"
+import { createClient } from "@/lib/supabase/client"
+import { createSafeStoragePath } from "@/lib/storage"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -37,16 +39,43 @@ const resourceTypes = ["Guide", "Template", "Tool", "Article"]
 
 export function ResourcesManager({ resources }: { resources: Resource[] }) {
   const [formData, setFormData] = useState(defaultForm)
+  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null)
+  const [thumbnailPreview, setThumbnailPreview] = useState("")
   const [editingId, setEditingId] = useState<string | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [deletingId, setDeletingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
   const router = useRouter()
+  const supabase = createClient()
 
   const resetForm = () => {
     setFormData(defaultForm)
+    setThumbnailFile(null)
+    setThumbnailPreview("")
     setEditingId(null)
+  }
+
+  const handleThumbnailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+
+    if (!file) {
+      return
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setError("Thumbnail image must be less than 5MB.")
+      return
+    }
+
+    setError(null)
+    setThumbnailFile(file)
+
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setThumbnailPreview(reader.result as string)
+    }
+    reader.readAsDataURL(file)
   }
 
   const handleEdit = (resource: Resource) => {
@@ -61,8 +90,28 @@ export function ResourcesManager({ resources }: { resources: Resource[] }) {
       tags: resource.tags?.join(", ") || "",
       featured: resource.featured,
     })
+    setThumbnailFile(null)
+    setThumbnailPreview(resource.thumbnail_url || "")
     setError(null)
     setSuccess(null)
+  }
+
+  const uploadThumbnailIfNeeded = async () => {
+    if (!thumbnailFile) {
+      return formData.thumbnail_url
+    }
+
+    const fileName = createSafeStoragePath("resources/admin", thumbnailFile.name, "thumbnail")
+    const { error: uploadError } = await supabase.storage
+      .from("project-images")
+      .upload(fileName, thumbnailFile, { upsert: true })
+
+    if (uploadError) {
+      throw new Error(`Thumbnail upload failed: ${uploadError.message}`)
+    }
+
+    const { data } = supabase.storage.from("project-images").getPublicUrl(fileName)
+    return data.publicUrl
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -72,6 +121,8 @@ export function ResourcesManager({ resources }: { resources: Resource[] }) {
     setIsSubmitting(true)
 
     try {
+      const thumbnailUrl = await uploadThumbnailIfNeeded()
+
       const response = await fetch(editingId ? `/api/admin/resources/${editingId}` : "/api/admin/resources", {
         method: editingId ? "PATCH" : "POST",
         headers: {
@@ -79,6 +130,7 @@ export function ResourcesManager({ resources }: { resources: Resource[] }) {
         },
         body: JSON.stringify({
           ...formData,
+          thumbnail_url: thumbnailUrl,
           tags: formData.tags
             .split(",")
             .map((tag) => tag.trim())
@@ -195,6 +247,26 @@ export function ResourcesManager({ resources }: { resources: Resource[] }) {
               <Label htmlFor="resource-thumbnail">Thumbnail URL</Label>
               <Input id="resource-thumbnail" value={formData.thumbnail_url} onChange={(e) => setFormData((p) => ({ ...p, thumbnail_url: e.target.value }))} placeholder="https://..." />
             </div>
+            <div className="space-y-2">
+              <Label htmlFor="resource-thumbnail-file">Thumbnail Image</Label>
+              <Input id="resource-thumbnail-file" type="file" accept="image/*" onChange={handleThumbnailChange} />
+              <p className="text-xs text-muted-foreground">Upload a thumbnail image up to 5MB, or keep using a direct image URL above.</p>
+            </div>
+            {(thumbnailPreview || formData.thumbnail_url) && (
+              <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/20">
+                <div className="aspect-video overflow-hidden bg-muted">
+                  <img
+                    src={thumbnailPreview || formData.thumbnail_url}
+                    alt="Resource thumbnail preview"
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div className="p-3">
+                  <p className="text-sm font-medium text-foreground">Thumbnail preview</p>
+                  <p className="text-xs text-muted-foreground">This image will appear on the public resources page.</p>
+                </div>
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="resource-tags">Tags</Label>
               <Input id="resource-tags" value={formData.tags} onChange={(e) => setFormData((p) => ({ ...p, tags: e.target.value }))} placeholder="materials, sustainability, workflow" />
