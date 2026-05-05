@@ -25,6 +25,34 @@ export default async function HomePage() {
     },
   ]
 
+  const teamMembers = [
+    {
+      name: "Team Member 1",
+      role: "Founder",
+      imageUrl: "/placeholder-user.jpg",
+    },
+    {
+      name: "Team Member 2",
+      role: "Editorial Lead",
+      imageUrl: "/placeholder-user.jpg",
+    },
+    {
+      name: "Team Member 3",
+      role: "Community Manager",
+      imageUrl: "/placeholder-user.jpg",
+    },
+    {
+      name: "Team Member 4",
+      role: "Project Curator",
+      imageUrl: "/placeholder-user.jpg",
+    },
+    {
+      name: "Team Member 5",
+      role: "Design Strategist",
+      imageUrl: "/placeholder-user.jpg",
+    },
+  ]
+
   // Fetch featured projects with error handling
   let featuredProjects = null
   let projectsError = null
@@ -271,6 +299,37 @@ export default async function HomePage() {
                 <Link href="/auth/sign-up" className="w-full sm:w-auto">Get Started</Link>
               </Button>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="bg-card py-16 sm:py-24 lg:py-32">
+        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+              Meet the Team
+            </h2>
+            <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
+              The people shaping TheArkitecktsHub into a stronger home for architecture, design, and community.
+            </p>
+          </div>
+          <div className="mx-auto mt-12 sm:mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-none lg:grid-cols-5">
+            {teamMembers.map((member) => (
+              <Card key={member.name} className="overflow-hidden transition-all hover:shadow-lg">
+                <CardContent className="flex h-full flex-col items-center p-6 text-center">
+                  <div className="mb-5 h-28 w-28 overflow-hidden rounded-full bg-muted">
+                    <img
+                      src={member.imageUrl}
+                      alt={member.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground">{member.name}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground">{member.role}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
