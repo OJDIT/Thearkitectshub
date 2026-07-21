@@ -12,6 +12,26 @@ import { Loader2 } from "lucide-react"
 
 const CATEGORIES = ["Residential", "Commercial", "Institutional", "Mixed-Use", "Infrastructure", "Landscape", "Other"]
 const STYLES = ["Modern", "Contemporary", "Traditional", "Minimalist", "Brutalist", "Parametric", "Sustainable", "Other"]
+const MAX_IMAGES = 5
+const MAX_FILE_SIZE = 5 * 1024 * 1024
+const UPLOAD_TIMEOUT_MS = 90_000
+
+function withTimeout<T>(operation: Promise<T>, message: string) {
+  return new Promise<T>((resolve, reject) => {
+    const timeout = window.setTimeout(() => reject(new Error(message)), UPLOAD_TIMEOUT_MS)
+
+    operation.then(
+      (value) => {
+        window.clearTimeout(timeout)
+        resolve(value)
+      },
+      (error) => {
+        window.clearTimeout(timeout)
+        reject(error)
+      },
+    )
+  })
+}
 
 export function ProjectUploadForm({ userId }: { userId: string }) {
   const [formData, setFormData] = useState({
@@ -25,10 +45,10 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [uploadStatus, setUploadStatus] = useState("")
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const supabase = createClient()
-  const MAX_IMAGES = 5
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -49,6 +69,13 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
       return
     }
 
+    const invalidFile = files.find((file) => !file.type.startsWith("image/") || file.size > MAX_FILE_SIZE)
+    if (invalidFile) {
+      setError(`"${invalidFile.name}" must be an image smaller than 5MB.`)
+      return
+    }
+
+    setError(null)
     const newFiles = [...imageFiles, ...files]
     setImageFiles(newFiles)
 
@@ -75,6 +102,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
     e.preventDefault()
     setError(null)
     setIsLoading(true)
+    setUploadStatus("")
 
     try {
       // Validate required fields
@@ -84,27 +112,33 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
         return
       }
 
-      const imageUrls: string[] = []
+      let imageUrls: string[] = []
 
       // Upload images if provided
       if (imageFiles.length > 0) {
-        for (const imageFile of imageFiles) {
+        setUploadStatus(`Uploading ${imageFiles.length} image${imageFiles.length === 1 ? "" : "s"}...`)
+
+        imageUrls = await Promise.all(imageFiles.map(async (imageFile, index) => {
           const fileName = createSafeStoragePath(`projects/${userId}`, imageFile.name, "project")
-          const { error: uploadError } = await supabase.storage
-            .from("project-images")
-            .upload(fileName, imageFile)
+          const { error: uploadError } = await withTimeout(
+            supabase.storage
+              .from("project-images")
+              .upload(fileName, imageFile, { contentType: imageFile.type, upsert: false }),
+            `Image ${index + 1} took too long to upload. Please check your connection and try again.`,
+          )
 
           if (uploadError) {
-            throw new Error(`Image upload failed: ${uploadError.message}`)
+            throw new Error(`Image ${index + 1} failed to upload: ${uploadError.message}`)
           }
 
           const { data: publicUrlData } = supabase.storage.from("project-images").getPublicUrl(fileName)
-          imageUrls.push(publicUrlData.publicUrl)
-        }
+          return publicUrlData.publicUrl
+        }))
       }
 
       // Insert into pending_projects
-      const { data, error: insertError } = await supabase.from("pending_projects").insert({
+      setUploadStatus("Saving your project...")
+      const { error: insertError } = await withTimeout(supabase.from("pending_projects").insert({
         title: formData.title,
         description: formData.description,
         location: formData.location,
@@ -115,7 +149,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
         image_urls: imageUrls,
         user_id: userId,
         status: "pending",
-      })
+      }), "Saving your project took too long. Please try again.")
 
       if (insertError) {
         throw new Error(`Failed to submit project: ${insertError.message}`)
@@ -127,6 +161,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
       setError(err instanceof Error ? err.message : "An error occurred. Please try again.")
     } finally {
       setIsLoading(false)
+      setUploadStatus("")
     }
   }
 
@@ -246,7 +281,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
                 className="mt-2"
               />
               <p className="text-xs text-muted-foreground mt-2">
-                Upload up to {MAX_IMAGES} images. Recommended: 1200x800px each. Max 5MB per image.
+                Upload up to {MAX_IMAGES} images. Recommended: 1200x800px each. Maximum 5MB per image.
               </p>
             </div>
 
@@ -298,7 +333,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
               )}
             </Button>
             <p className="text-xs text-muted-foreground mt-4">
-              Your project will be reviewed by our team. You'll be notified once it's been approved or if we need more information.
+              {uploadStatus || "Your project will be reviewed by our team. You'll be notified once it's been approved or if we need more information."}
             </p>
           </div>
         </form>
