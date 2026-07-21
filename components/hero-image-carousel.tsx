@@ -23,7 +23,7 @@ export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
 
   if (images.length === 0) {
     return (
-      <div className="relative h-64 overflow-hidden rounded-[2rem] bg-muted sm:h-80 lg:h-96">
+      <div className="relative h-72 overflow-hidden border border-border bg-muted sm:h-96 lg:h-[34rem]">
         <img
           src="/hero-architecture.jpg"
           alt="Contemporary architectural masterpiece"
@@ -34,7 +34,7 @@ export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
   }
 
   return (
-    <div className="relative h-64 overflow-hidden rounded-[2rem] bg-muted sm:h-80 lg:h-96">
+    <div className="relative h-72 overflow-hidden border border-border bg-muted sm:h-96 lg:h-[34rem]">
       {images.map((image, index) => (
         <img
           key={`${image}-${index}`}
@@ -45,7 +45,7 @@ export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
           }`}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-tr from-black/15 via-transparent to-white/10" />
+      <div className="absolute inset-0 bg-black/10" />
     </div>
   )
 }

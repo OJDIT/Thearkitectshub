@@ -17,27 +17,27 @@ export function SiteHeader() {
   const pathname = usePathname()
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background">
       <nav
-        className="mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8"
+        className="mx-auto flex w-full max-w-screen-2xl items-center justify-between px-5 py-3 sm:px-8 lg:px-10"
         aria-label="Global"
       >
         <div className="flex lg:flex-1 items-center gap-2">
-          <Link href="/" className="-m-1.5 p-1.5">
-            <img src="/logo.png" alt="TheArkitecktsHub" className="h-8 w-8" />
+          <Link href="/" className="-m-1 p-1">
+            <img src="/logo.png" alt="TheArkitecktsHub" className="h-7 w-7" />
           </Link>
           <Link href="/" className="hidden sm:block">
-            <span className="text-xl font-semibold tracking-tight">TheArkitecktsHub</span>
+            <span className="font-display text-[1.35rem] font-semibold tracking-[-0.06em]">TheArkitecktsHub</span>
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex lg:gap-x-8">
+        <div className="hidden lg:flex lg:gap-x-7">
           {navigation.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-[10px] font-semibold uppercase tracking-[0.16em] transition-colors hover:text-primary ${
                 pathname === item.href ? "text-foreground" : "text-muted-foreground"
               }`}
             >

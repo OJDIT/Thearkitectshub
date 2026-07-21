@@ -28,13 +28,13 @@ const socialLinks = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-background w-full">
-      <div className="mx-auto w-full max-w-screen-2xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+    <footer className="border-t border-border bg-secondary/35 w-full">
+      <div className="mx-auto w-full max-w-screen-2xl px-5 py-14 sm:px-8 lg:px-10">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 lg:grid-cols-4">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <img src="/logo.png" alt="TheArkitecktsHub" className="h-8 w-8" />
-              <h3 className="text-xl font-semibold tracking-tight">TheArkitecktsHub</h3>
+              <h3 className="font-display text-2xl font-semibold tracking-[-0.06em]">TheArkitecktsHub</h3>
             </div>
             <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
               A curated platform celebrating contemporary architecture, connecting visionary architects with those who
@@ -47,7 +47,7 @@ export function SiteFooter() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/60 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                    className="inline-flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
                     aria-label={link.name}
                   >
                     <Icon className="h-4 w-4" />
@@ -56,14 +56,14 @@ export function SiteFooter() {
               })}
               <a
                 href="mailto:info@thearkitecktshub.com"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/60 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                className="inline-flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
                 aria-label="Email"
               >
                 <Mail className="h-4 w-4" />
               </a>
               <a
                 href="tel:+2349134602377"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-border/60 text-muted-foreground transition-colors hover:border-foreground hover:text-foreground"
+                className="inline-flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition-colors hover:border-primary hover:bg-primary hover:text-primary-foreground"
                 aria-label="Phone"
               >
                 <Phone className="h-4 w-4" />
@@ -83,13 +83,13 @@ export function SiteFooter() {
             </div>
           </div>
           <div>
-            <h4 className="text-sm font-semibold mb-4">Discover</h4>
+            <h4 className="editorial-label mb-5">Discover</h4>
             <ul className="space-y-3">
               {footerNavigation.discover.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -98,13 +98,13 @@ export function SiteFooter() {
             </ul>
           </div>
           <div>
-            <h4 className="text-sm font-semibold mb-4">Company</h4>
+            <h4 className="editorial-label mb-5">Company</h4>
             <ul className="space-y-3">
               {footerNavigation.company.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
                   >
                     {item.name}
                   </Link>
@@ -113,7 +113,7 @@ export function SiteFooter() {
             </ul>
           </div>
         </div>
-        <div className="mt-12 border-t border-border pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="mt-14 border-t border-border pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} TheArkitecktsHub. All rights reserved.
           </p>

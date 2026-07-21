@@ -33,8 +33,8 @@ export default async function HomePage() {
     },
     {
       name: "Team Member 2",
-      role: "Editorial Lead",
-      imageUrl: "/placeholder-user.jpg",
+      role: "Team Member",
+      imageUrl: "/IMG_2931.PNG",
     },
     {
       name: "Team Member 3",
@@ -115,17 +115,18 @@ export default async function HomePage() {
     <div className="flex flex-col">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-background">
-        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center py-16 sm:py-24 lg:py-32">
+        <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-10">
+          <div className="grid grid-cols-1 items-end gap-10 border-b border-border py-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:py-20">
             {/* Content */}
             <div className="flex flex-col justify-center">
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-foreground text-balance leading-tight">
+              <p className="editorial-label mb-6">Architecture / Culture / City</p>
+              <h1 className="font-display text-5xl font-semibold tracking-[-0.065em] text-foreground text-balance leading-[0.91] sm:text-6xl lg:text-7xl xl:text-[5.6rem]">
                 Where Architecture Meets Inspiration
               </h1>
-              <p className="mt-6 text-base sm:text-lg leading-relaxed text-muted-foreground text-pretty max-w-lg">
+              <p className="mt-7 max-w-md text-[15px] leading-7 text-muted-foreground text-pretty">
                 Discover contemporary architectural projects, connect with visionary architects, and explore design resources that shape the built environment.
               </p>
-              <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-x-4">
+              <div className="mt-9 flex flex-col sm:flex-row items-start sm:items-center gap-3">
                 <Button size="lg" asChild>
                   <Link href="/projects" className="w-full sm:w-auto">
                     Explore Projects <ArrowRight className="ml-2 h-4 w-4" />
@@ -144,19 +145,22 @@ export default async function HomePage() {
       </section>
 
       {/* Featured Projects Section */}
-      <section className="bg-card py-16 sm:py-24 lg:py-32">
-        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">Featured Projects</h2>
-            <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
+      <section className="bg-card py-16 sm:py-24 lg:py-28">
+        <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-10">
+          <div className="grid max-w-4xl gap-5 border-t border-border pt-5 lg:grid-cols-[0.35fr_1fr]">
+            <p className="editorial-label">Selected work</p>
+            <div>
+            <h2 className="font-display text-4xl font-semibold tracking-[-0.055em] text-foreground sm:text-5xl">Featured Projects</h2>
+            <p className="mt-3 text-[15px] text-muted-foreground leading-7">
               Exceptional architectural works that push boundaries and inspire innovation.
             </p>
+            </div>
           </div>
-          <div className="mx-auto mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 lg:grid-cols-3 lg:max-w-none">
+          <div className="mt-12 grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {featuredProjects && featuredProjects.length > 0 ? (
               featuredProjects.map((project) => (
                 <Link key={project.id} href={`/projects/${project.id}`} className="group">
-                  <Card className="overflow-hidden transition-all hover:shadow-lg">
+                  <Card className="overflow-hidden border-x-0 border-t-0 border-b border-border bg-transparent py-0 transition-colors hover:border-primary">
                     <div className="aspect-[4/3] overflow-hidden bg-muted">
                       <img
                         src={project.cover_image_url || "/placeholder.svg"}
@@ -164,8 +168,8 @@ export default async function HomePage() {
                         className="h-full w-full object-cover transition-transform group-hover:scale-105"
                       />
                     </div>
-                    <CardContent className="p-6">
-                      <div className="flex items-center gap-2 text-xs text-muted-foreground mb-2">
+                    <CardContent className="px-0 py-5">
+                      <div className="mb-3 flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                         <span>{project.category}</span>
                         {project.location && (
                           <>
@@ -174,7 +178,7 @@ export default async function HomePage() {
                           </>
                         )}
                       </div>
-                      <h3 className="text-xl font-semibold text-foreground mb-2">{project.title}</h3>
+                      <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground mb-2">{project.title}</h3>
                       {project.architects && <p className="text-sm text-muted-foreground">by {(project.architects as { name?: string }[])[0]?.name}</p>}
                     </CardContent>
                   </Card>
@@ -193,7 +197,7 @@ export default async function HomePage() {
               </div>
             )}
           </div>
-          <div className="mt-12 text-center">
+          <div className="mt-10">
             <Button variant="outline" asChild>
               <Link href="/projects">
                 View All Projects <ArrowRight className="ml-2 h-4 w-4" />
@@ -204,21 +208,22 @@ export default async function HomePage() {
       </section>
 
       {/* Features Section */}
-      <section className="bg-background py-16 sm:py-24 lg:py-32">
-        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+      <section className="bg-background py-16 sm:py-24 lg:py-28">
+        <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-10">
+          <div className="mb-12 max-w-2xl border-t border-border pt-5 sm:mb-16">
+            <p className="editorial-label mb-5">Conversations</p>
+            <h2 className="font-display text-4xl font-semibold tracking-[-0.055em] text-foreground sm:text-5xl">
               Everything You Need to Explore Architecture
             </h2>
           </div>
-          <div className="mx-auto grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 max-w-2xl lg:max-w-none">
+          <div className="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
             {featuredVideos.map((video) => (
               <a
                 key={video.id}
                 href={video.href}
                 target="_blank"
                 rel="noreferrer"
-                className="group overflow-hidden rounded-lg bg-card transition-all hover:shadow-lg"
+                className="group overflow-hidden border-b border-border bg-transparent pb-5 transition-colors hover:border-primary"
               >
                 <div className="aspect-video overflow-hidden bg-muted">
                   <img
@@ -227,9 +232,9 @@ export default async function HomePage() {
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-semibold text-foreground">{video.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+                <div className="pt-5">
+                  <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">{video.title}</h3>
+                  <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                     Watch on YouTube
                   </p>
                 </div>
@@ -241,19 +246,20 @@ export default async function HomePage() {
 
       {/* Featured Architects Section */}
       {featuredArchitects && featuredArchitects.length > 0 && (
-        <section className="bg-card py-16 sm:py-24 lg:py-32">
-          <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-2xl lg:mx-0">
-              <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">Featured Architects</h2>
-              <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
+        <section className="bg-card py-16 sm:py-24 lg:py-28">
+          <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-10">
+            <div className="max-w-2xl border-t border-border pt-5">
+              <p className="editorial-label mb-5">Practices & people</p>
+              <h2 className="font-display text-4xl font-semibold tracking-[-0.055em] text-foreground sm:text-5xl">Featured Architects</h2>
+              <p className="mt-3 text-[15px] text-muted-foreground leading-7">
                 Meet the visionary designers behind exceptional architectural works.
               </p>
             </div>
-            <div className="mx-auto mt-12 sm:mt-16 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 sm:gap-8 lg:max-w-none">
+            <div className="mt-12 grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
               {featuredArchitects.map((architect) => (
                 <Link key={architect.id} href={`/architects/${architect.id}`} className="group">
-                  <div className="flex flex-col items-center text-center">
-                    <div className="mb-4 h-32 w-32 overflow-hidden rounded-full bg-muted">
+                  <div className="flex flex-col border-t border-border pt-4">
+                    <div className="mb-4 aspect-square w-full overflow-hidden bg-muted">
                       {architect.avatar_url ? (
                         <img
                           src={architect.avatar_url || "/placeholder.svg"}
@@ -266,14 +272,14 @@ export default async function HomePage() {
                         </div>
                       )}
                     </div>
-                    <h3 className="text-lg font-semibold text-foreground">{architect.name}</h3>
+                    <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">{architect.name}</h3>
                     <p className="text-sm text-muted-foreground">{architect.title}</p>
                     {architect.location && <p className="mt-1 text-xs text-muted-foreground">{architect.location}</p>}
                   </div>
                 </Link>
               ))}
             </div>
-            <div className="mt-12 text-center">
+            <div className="mt-10">
               <Button variant="outline" asChild>
                 <Link href="/architects">
                   View All Architects <ArrowRight className="ml-2 h-4 w-4" />
@@ -285,47 +291,50 @@ export default async function HomePage() {
       )}
 
       {/* CTA Section */}
-      <section className="bg-background py-16 sm:py-24 lg:py-32">
-        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground text-balance">
+      <section className="bg-primary py-16 text-primary-foreground sm:py-24 lg:py-28">
+        <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-10">
+          <div className="grid max-w-5xl gap-7 lg:grid-cols-[0.35fr_1fr]">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-primary-foreground/70">The common ground</p>
+            <div>
+            <h2 className="font-display text-4xl font-semibold tracking-[-0.055em] text-primary-foreground text-balance sm:text-5xl">
               Join Our Community
             </h2>
-            <p className="mt-6 text-base sm:text-lg leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-5 max-w-xl text-[15px] leading-7 text-primary-foreground/75 text-pretty">
               Create an account to save your favorite projects, follow architects, and get personalized recommendations.
             </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-x-4">
-              <Button size="lg" asChild>
+            <div className="mt-8 flex flex-col items-start sm:flex-row">
+              <Button size="lg" variant="outline" className="border-primary-foreground bg-primary-foreground text-primary hover:bg-transparent hover:text-primary-foreground" asChild>
                 <Link href="/auth/sign-up" className="w-full sm:w-auto">Get Started</Link>
               </Button>
-            </div>
+            </div></div>
           </div>
         </div>
       </section>
 
       {/* Team Section */}
-      <section className="bg-card py-16 sm:py-24 lg:py-32">
-        <div className="mx-auto max-w-screen-2xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
+      <section className="bg-card py-16 sm:py-24 lg:py-28">
+        <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-10">
+          <div className="max-w-2xl border-t border-border pt-5">
+            <p className="editorial-label mb-5">The editorial office</p>
+            <h2 className="font-display text-4xl font-semibold tracking-[-0.055em] text-foreground sm:text-5xl">
               Meet the Team
             </h2>
-            <p className="mt-4 text-base sm:text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-3 text-[15px] text-muted-foreground leading-7">
               The people shaping TheArkitecktsHub into a stronger home for architecture, design, and community.
             </p>
           </div>
-          <div className="mx-auto mt-12 sm:mt-16 grid max-w-2xl grid-cols-1 gap-6 sm:grid-cols-2 lg:max-w-none lg:grid-cols-5">
+          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {teamMembers.map((member) => (
-              <Card key={member.name} className="overflow-hidden transition-all hover:shadow-lg">
-                <CardContent className="flex h-full flex-col items-center p-6 text-center">
-                  <div className="mb-5 h-28 w-28 overflow-hidden rounded-full bg-muted">
+              <Card key={member.name} className="overflow-hidden border-x-0 border-t-0 border-b border-border bg-transparent py-0">
+                <CardContent className="flex h-full flex-col px-0 py-5">
+                  <div className="mb-5 aspect-square w-full overflow-hidden bg-muted">
                     <img
                       src={member.imageUrl}
                       alt={member.name}
                       className="h-full w-full object-cover"
                     />
                   </div>
-                  <h3 className="text-lg font-semibold text-foreground">{member.name}</h3>
+                  <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">{member.name}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{member.role}</p>
                 </CardContent>
               </Card>
