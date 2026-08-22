@@ -82,7 +82,19 @@ export function ArchitectsManager({ architects }: { architects: Architect[] }) {
       let avatarUrl = formData.avatar_url
 
       if (avatarFile) {
-        const fileName = createSafeStoragePath("architects", avatarFile.name, "portrait")
+        const {
+          data: { user },
+          error: userError,
+        } = await supabase.auth.getUser()
+
+        if (userError || !user) {
+          throw new Error("You must be signed in to upload an architect image.")
+        }
+
+        // The Storage policy scopes profile-avatar uploads to the signed-in
+        // user's folder. Using that folder keeps admin portrait uploads
+        // authorized while preserving the policy's access control.
+        const fileName = createSafeStoragePath(user.id, avatarFile.name, "architect-portrait")
         const { error: uploadError } = await supabase.storage
           .from("profile-avatars")
           .upload(fileName, avatarFile, { upsert: true })

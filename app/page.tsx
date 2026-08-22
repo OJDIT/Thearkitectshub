@@ -27,20 +27,20 @@ export default async function HomePage() {
 
   const teamMembers = [
     {
-      name: "Team Member 1",
-      role: "Founder",
-      imageUrl: "/placeholder-user.jpg",
+      name: "Praise",
+      role: "",
+      imageUrl: "/IMG_2932.PNG",
     },
     {
-      name: "Team Member 2",
-      role: "Team Member",
+      name: "Daniel",
+      role: "",
       imageUrl: "/IMG_2931.PNG",
     },
     {
-      name: "Team Member 3",
-      role: "Community Manager",
-      imageUrl: "/placeholder-user.jpg",
-    },
+      name: "Restra",
+      role: "",
+      imageUrl: "/IMG_2930.PNG",
+    },/*
     {
       name: "Team Member 4",
       role: "Project Curator",
@@ -50,7 +50,7 @@ export default async function HomePage() {
       name: "Team Member 5",
       role: "Design Strategist",
       imageUrl: "/placeholder-user.jpg",
-    },
+    },*/
   ]
 
   // Fetch featured projects with error handling
