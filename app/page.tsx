@@ -23,6 +23,21 @@ export default async function HomePage() {
       href: "https://youtu.be/Dic6aTpHwfs?si=5a15j2J2WsPhzbe8",
       title: "What Exactly is Real Estate Becoming",
     },
+    {
+      id: "kCBqXBB7DHQ",
+      href: "https://youtu.be/kCBqXBB7DHQ?si=rAnDUeiGbBLEgsC1",
+      title: "The Role of the Architect in Shaping the Future",
+    },
+    {
+      id: "tSFOqlHybs0",
+      href: "https://youtu.be/tSFOqlHybs0?si=fQMVyQ5fWbMSKPMw",
+      title: "Lagos Is Flooding Again! Who’s Really to Blame?",
+    },
+    {
+      id: "YBYRjnSQu3Q",
+      href: "https://youtu.be/YBYRjnSQu3Q?si=Mt8LgPCN6xPd9iAx",
+      title: "Street Interview | Banter POD- TheArkitecktsHub Podcast ",
+    },
   ]
 
   const teamMembers = [
