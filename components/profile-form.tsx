@@ -39,9 +39,9 @@ export function ProfileForm({
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        setError("Image must be less than 5MB")
+      // Validate file size (max 80MB)
+      if (file.size > 80 * 1024 * 1024) {
+        setError("Image must be less than 80MB")
         return
       }
 

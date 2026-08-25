@@ -61,8 +61,8 @@ export function BlogsManager({ posts }: { posts: BlogPost[] }) {
   const handleCoverChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Cover image must be less than 5MB.")
+    if (file.size > 80 * 1024 * 1024) {
+      setError("Cover image must be less than 80MB.")
       return
     }
 

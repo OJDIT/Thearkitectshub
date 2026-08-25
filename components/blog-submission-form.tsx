@@ -50,6 +50,12 @@ export function BlogSubmissionForm({ userId }: { userId: string }) {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
+      if (!file.type.startsWith("image/") || file.size > 80 * 1024 * 1024) {
+        setError("Cover image must be an image smaller than 80MB.")
+        return
+      }
+
+      setError(null)
       setFormData((prev) => ({
         ...prev,
         coverImage: file,
@@ -268,7 +274,7 @@ export function BlogSubmissionForm({ userId }: { userId: string }) {
                   onChange={handleImageChange}
                   required
                 />
-                <p className="text-xs text-muted-foreground mt-2">Recommended: 1200x800px. Max 5MB.</p>
+                <p className="text-xs text-muted-foreground mt-2">Recommended: 1200x800px. Max 80MB.</p>
               </div>
               {imagePreview && (
                 <div className="w-32 h-24 rounded-lg overflow-hidden flex-shrink-0">

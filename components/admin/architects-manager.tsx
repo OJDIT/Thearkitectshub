@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { CountryStateSelect } from "@/components/country-state-select"
 
 interface Architect {
   id: string
@@ -43,6 +44,8 @@ const initialFormState = {
 
 export function ArchitectsManager({ architects }: { architects: Architect[] }) {
   const [formData, setFormData] = useState(initialFormState)
+  const [country, setCountry] = useState("")
+  const [state, setState] = useState("")
   const [avatarFile, setAvatarFile] = useState<File | null>(null)
   const [avatarPreview, setAvatarPreview] = useState("")
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -59,8 +62,8 @@ export function ArchitectsManager({ architects }: { architects: Architect[] }) {
       return
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Architect image must be less than 5MB.")
+    if (file.size > 80 * 1024 * 1024) {
+      setError("Architect image must be less than 80MB.")
       return
     }
 
@@ -115,6 +118,7 @@ export function ArchitectsManager({ architects }: { architects: Architect[] }) {
         body: JSON.stringify({
           ...formData,
           avatar_url: avatarUrl,
+          location: [state, country].filter(Boolean).join(", "),
           specialties: formData.specialties
             .split(",")
             .map((item) => item.trim())
@@ -129,6 +133,8 @@ export function ArchitectsManager({ architects }: { architects: Architect[] }) {
       }
 
       setFormData(initialFormState)
+      setCountry("")
+      setState("")
       setAvatarFile(null)
       setAvatarPreview("")
       setSuccess("Architect added successfully.")
@@ -225,19 +231,21 @@ export function ArchitectsManager({ architects }: { architects: Architect[] }) {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="space-y-2">
-                <Label htmlFor="location">Location</Label>
-                <Input
-                  id="location"
-                  value={formData.location}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
-                  placeholder="Lagos, Nigeria"
+              <div className="md:col-span-2">
+                <CountryStateSelect
+                  country={country}
+                  state={state}
+                  onCountryChange={(value) => {
+                    setCountry(value)
+                    setState("")
+                  }}
+                  onStateChange={setState}
                 />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 md:col-span-2">
                 <Label htmlFor="avatar">Architect Image</Label>
                 <Input id="avatar" type="file" accept="image/*" onChange={handleAvatarChange} />
-                <p className="text-xs text-muted-foreground">Upload a portrait image up to 5MB.</p>
+                <p className="text-xs text-muted-foreground">Upload a portrait image up to 80MB.</p>
               </div>
             </div>
 

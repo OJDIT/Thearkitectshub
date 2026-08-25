@@ -9,14 +9,15 @@ import { Label } from "@/components/ui/label"
 import { createClient } from "@/lib/supabase/client"
 import { createSafeStoragePath } from "@/lib/storage"
 import { Loader2 } from "lucide-react"
+import { CountryStateSelect } from "@/components/country-state-select"
 
 const CATEGORIES = ["Residential", "Commercial", "Institutional", "Mixed-Use", "Infrastructure", "Landscape", "Other"]
 const STYLES = ["Modern", "Contemporary", "Traditional", "Minimalist", "Brutalist", "Parametric", "Sustainable", "Other"]
-const MAX_IMAGES = 5
-const MAX_FILE_SIZE = 5 * 1024 * 1024
-const UPLOAD_TIMEOUT_MS = 90_000
+const MAX_IMAGES = 10
+const MAX_FILE_SIZE = 80 * 1024 * 1024
+const UPLOAD_TIMEOUT_MS = 180_000
 
-function withTimeout<T>(operation: Promise<T>, message: string) {
+function withTimeout<T>(operation: PromiseLike<T>, message: string) {
   return new Promise<T>((resolve, reject) => {
     const timeout = window.setTimeout(() => reject(new Error(message)), UPLOAD_TIMEOUT_MS)
 
@@ -37,7 +38,8 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    location: "",
+    country: "",
+    state: "",
     category: "",
     style: "",
     year_completed: new Date().getFullYear(),
@@ -71,7 +73,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
 
     const invalidFile = files.find((file) => !file.type.startsWith("image/") || file.size > MAX_FILE_SIZE)
     if (invalidFile) {
-      setError(`"${invalidFile.name}" must be an image smaller than 5MB.`)
+      setError(`"${invalidFile.name}" must be an image smaller than 80MB.`)
       return
     }
 
@@ -106,7 +108,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
 
     try {
       // Validate required fields
-      if (!formData.title || !formData.description || !formData.location || !formData.category) {
+      if (!formData.title || !formData.description || !formData.country || !formData.category) {
         setError("Please fill in all required fields")
         setIsLoading(false)
         return
@@ -141,7 +143,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
       const { error: insertError } = await withTimeout(supabase.from("pending_projects").insert({
         title: formData.title,
         description: formData.description,
-        location: formData.location,
+        location: [formData.state, formData.country].filter(Boolean).join(", "),
         category: formData.category,
         style: formData.style,
         year_completed: formData.year_completed,
@@ -205,15 +207,13 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
               />
             </div>
 
-            <div>
-              <Label htmlFor="location">Location *</Label>
-              <Input
-                id="location"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-                placeholder="City, Country"
-                className="mt-2"
+            <div className="md:col-span-2">
+              <CountryStateSelect
+                country={formData.country}
+                state={formData.state}
+                required
+                onCountryChange={(country) => setFormData((prev) => ({ ...prev, country, state: "" }))}
+                onStateChange={(state) => setFormData((prev) => ({ ...prev, state }))}
               />
             </div>
 
@@ -281,7 +281,7 @@ export function ProjectUploadForm({ userId }: { userId: string }) {
                 className="mt-2"
               />
               <p className="text-xs text-muted-foreground mt-2">
-                Upload up to {MAX_IMAGES} images. Recommended: 1200x800px each. Maximum 5MB per image.
+                Upload up to {MAX_IMAGES} images. Recommended: 1200x800px each. Maximum 80MB per image.
               </p>
             </div>
 

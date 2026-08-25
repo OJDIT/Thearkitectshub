@@ -63,8 +63,8 @@ export function ResourcesManager({ resources }: { resources: Resource[] }) {
       return
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      setError("Thumbnail image must be less than 5MB.")
+    if (file.size > 80 * 1024 * 1024) {
+      setError("Thumbnail image must be less than 80MB.")
       return
     }
 
@@ -250,7 +250,7 @@ export function ResourcesManager({ resources }: { resources: Resource[] }) {
             <div className="space-y-2">
               <Label htmlFor="resource-thumbnail-file">Thumbnail Image</Label>
               <Input id="resource-thumbnail-file" type="file" accept="image/*" onChange={handleThumbnailChange} />
-              <p className="text-xs text-muted-foreground">Upload a thumbnail image up to 5MB, or keep using a direct image URL above.</p>
+              <p className="text-xs text-muted-foreground">Upload a thumbnail image up to 80MB, or keep using a direct image URL above.</p>
             </div>
             {(thumbnailPreview || formData.thumbnail_url) && (
               <div className="overflow-hidden rounded-xl border border-border/60 bg-muted/20">
