@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import type { User as SupabaseUser } from "@supabase/supabase-js"
 import { createClient } from "@/lib/supabase/client"
+import { clearAppBrowserData } from "@/lib/auth/browser-session"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { LayoutDashboard, LogOut, Menu, Settings, Upload, User, X } from "lucide-react"
@@ -109,6 +110,7 @@ export function MobileUserMenu({ navigation, pathname }: MobileUserMenuProps) {
           throw err
         }
       }
+      await clearAppBrowserData()
 
       setOpen(false)
       router.refresh()

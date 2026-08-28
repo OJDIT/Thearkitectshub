@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import type { User } from "@supabase/supabase-js"
 import { createClient } from "@/lib/supabase/client"
+import { clearAppBrowserData } from "@/lib/auth/browser-session"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -110,6 +111,7 @@ export function UserMenu() {
           throw err
         }
       }
+      await clearAppBrowserData()
       
       router.refresh()
       await router.push("/")

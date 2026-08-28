@@ -274,15 +274,15 @@ export default async function HomePage() {
               {featuredArchitects.map((architect) => (
                 <Link key={architect.id} href={`/architects/${architect.id}`} className="group">
                   <div className="flex flex-col border-t border-border pt-4">
-                    <div className="mb-4 aspect-square w-full overflow-hidden bg-muted">
+                    <div className="mb-4 flex size-24 items-center justify-center overflow-hidden rounded-full border border-border bg-muted p-1 shadow-sm sm:size-28">
                       {architect.avatar_url ? (
                         <img
                           src={architect.avatar_url || "/placeholder.svg"}
                           alt={architect.name}
-                          className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                          className="h-full w-full rounded-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-secondary text-2xl font-semibold text-secondary-foreground">
+                        <div className="flex h-full w-full items-center justify-center rounded-full bg-secondary text-2xl font-semibold text-secondary-foreground">
                           {architect.name.charAt(0)}
                         </div>
                       )}
@@ -340,13 +340,13 @@ export default async function HomePage() {
           </div>
           <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
             {teamMembers.map((member) => (
-              <Card key={member.name} className="overflow-hidden border-x-0 border-t-0 border-b border-border bg-transparent py-0">
+              <Card key={member.name} className="group overflow-hidden border-x-0 border-t-0 border-b border-border bg-transparent py-0">
                 <CardContent className="flex h-full flex-col px-0 py-5">
-                  <div className="mb-5 aspect-square w-full overflow-hidden bg-muted">
+                  <div className="mb-5 flex size-24 items-center justify-center overflow-hidden rounded-full border border-border bg-muted p-1 shadow-sm sm:size-28">
                     <img
                       src={member.imageUrl}
                       alt={member.name}
-                      className="h-full w-full object-cover"
+                      className="h-full w-full rounded-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
                   <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">{member.name}</h3>

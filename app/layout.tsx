@@ -4,6 +4,7 @@ import { Fraunces, Space_Grotesk } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { SiteHeader } from "@/components/site-header"
 import { SiteFooter } from "@/components/site-footer"
+import { SessionInactivityGuard } from "@/components/session-inactivity-guard"
 import "./globals.css"
 
 const fraunces = Fraunces({
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${fraunces.variable} ${spaceGrotesk.variable} bg-background`}>
       <body className="font-sans antialiased bg-background w-full">
+        <SessionInactivityGuard />
         <div className="relative flex min-h-screen flex-col w-full">
           <SiteHeader />
           <main className="flex-1 w-full">{children}</main>
