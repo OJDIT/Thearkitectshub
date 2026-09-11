@@ -198,17 +198,7 @@ export function UserMenu() {
                 </Link>
               </DropdownMenuItem>
             </>
-          ) : (
-            <>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/admin-setup" className="cursor-pointer text-muted-foreground">
-                  <LayoutDashboard className="mr-2 h-4 w-4" />
-                  Admin Access
-                </Link>
-              </DropdownMenuItem>
-            </>
-          )}
+          ) : null}
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
             <LogOut className="mr-2 h-4 w-4" />

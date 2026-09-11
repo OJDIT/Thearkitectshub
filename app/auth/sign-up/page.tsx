@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Eye, EyeOff } from "lucide-react"
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { TurnstileCaptcha } from "@/components/auth/turnstile-captcha"
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("")
@@ -19,10 +20,21 @@ export default function SignUpPage() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const router = useRouter()
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+
+  const handleCaptchaError = useCallback(() => {
+    setCaptchaToken(null)
+  }, [])
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!captchaToken) {
+      setError("Please complete the spam protection check before creating your account.")
+      return
+    }
+
     const supabase = createClient()
     setIsLoading(true)
     setError(null)
@@ -33,6 +45,7 @@ export default function SignUpPage() {
         password,
         options: {
           emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || `${window.location.origin}`,
+          captchaToken,
           data: {
             display_name: displayName,
           },
@@ -103,8 +116,17 @@ export default function SignUpPage() {
                   </div>
                   <p className="text-xs text-muted-foreground">Must be at least 6 characters</p>
                 </div>
+                {turnstileSiteKey ? (
+                  <TurnstileCaptcha
+                    siteKey={turnstileSiteKey}
+                    onVerify={setCaptchaToken}
+                    onError={handleCaptchaError}
+                  />
+                ) : (
+                  <p className="text-sm text-destructive">Sign-up spam protection is not configured. Please contact the site administrator.</p>
+                )}
                 {error && <p className="text-sm text-destructive">{error}</p>}
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type="submit" className="w-full" disabled={isLoading || !captchaToken || !turnstileSiteKey}>
                   {isLoading ? "Creating account..." : "Create Account"}
                 </Button>
               </div>

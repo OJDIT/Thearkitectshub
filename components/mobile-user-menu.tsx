@@ -222,16 +222,16 @@ export function MobileUserMenu({ navigation, pathname }: MobileUserMenuProps) {
                       <Upload className="mr-3 h-4 w-4" />
                       Submit Project
                     </Link>
-                    <Link
-                      href={profile?.is_admin ? "/admin" : "/admin-setup"}
-                      onClick={() => setOpen(false)}
-                      className={`flex items-center rounded-2xl px-4 py-3 text-sm font-medium hover:bg-accent ${
-                        profile?.is_admin ? "text-foreground" : "text-muted-foreground"
-                      }`}
-                    >
-                      <LayoutDashboard className="mr-3 h-4 w-4" />
-                      {profile?.is_admin ? "Admin Dashboard" : "Admin Access"}
-                    </Link>
+                    {profile?.is_admin ? (
+                      <Link
+                        href="/admin"
+                        onClick={() => setOpen(false)}
+                        className="flex items-center rounded-2xl px-4 py-3 text-sm font-medium text-foreground hover:bg-accent"
+                      >
+                        <LayoutDashboard className="mr-3 h-4 w-4" />
+                        Admin Dashboard
+                      </Link>
+                    ) : null}
                     <button
                       onClick={handleLogout}
                       className="flex w-full items-center rounded-2xl px-4 py-3 text-left text-sm font-medium text-foreground hover:bg-accent"

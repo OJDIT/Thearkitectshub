@@ -40,6 +40,30 @@ export default async function HomePage() {
     },
   ]
 
+  const treePlantingPhotos = [
+    { src: "/tree-planting-01.jpg", alt: "TheArkitecktsHub volunteers planting a palm tree" },
+    { src: "/tree-planting-02.jpg", alt: "A participant placing a young tree into the ground" },
+    { src: "/tree-planting-03.jpg", alt: "Community members planting a palm tree together" },
+    { src: "/tree-planting-05.png", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0085.JPG", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0087.JPG", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0114.JPG", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0131.JPG", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0158.JPG", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0162.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0174.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0194.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0199.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0206.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0207.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+    { src: "/IMG_0211.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
+  ]
+
+  const treePlantingVideos = Array.from({ length: 10 }, (_, index) => ({
+    src: `/tree-planting-${String(index + 1).padStart(2, "0")}.mov`,
+    title: `Tree planting event video ${index + 1}`,
+  }))
+
   const teamMembers = [
     {
       name: "Praise",
@@ -55,12 +79,12 @@ export default async function HomePage() {
       name: "Restra",
       role: "",
       imageUrl: "/IMG_2930.PNG",
-    },/*
-    {
-      name: "Team Member 4",
-      role: "Project Curator",
-      imageUrl: "/placeholder-user.jpg",
     },
+    {
+      name: "Chizzy",
+      role: "",
+      imageUrl: "/chizzy.png",
+    },/*
     {
       name: "Team Member 5",
       role: "Design Strategist",
@@ -226,35 +250,77 @@ export default async function HomePage() {
       <section className="bg-background py-16 sm:py-24 lg:py-28">
         <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-10">
           <div className="mb-12 max-w-2xl border-t border-border pt-5 sm:mb-16">
-            <p className="editorial-label mb-5">Conversations</p>
+            <p className="editorial-label mb-5">Community impact</p>
             <h2 className="font-display text-4xl font-semibold tracking-[-0.055em] text-foreground sm:text-5xl">
               Everything You Need to Explore Architecture
             </h2>
+            <p className="mt-4 text-[15px] leading-7 text-muted-foreground">
+              Architecture is rooted in the places and communities we care for. See TheArkitecktsHub in action at our tree-planting event.
+            </p>
           </div>
-          <div className="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredVideos.map((video) => (
-              <a
-                key={video.id}
-                href={video.href}
-                target="_blank"
-                rel="noreferrer"
-                className="group overflow-hidden border-b border-border bg-transparent pb-5 transition-colors hover:border-primary"
-              >
-                <div className="aspect-video overflow-hidden bg-muted">
+          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]">
+            {treePlantingPhotos.map((photo) => (
+              <figure key={photo.src} className="group w-[min(72vw,18rem)] shrink-0 snap-start overflow-hidden border-b border-border bg-transparent pb-5 sm:w-[18rem]">
+                <div className="aspect-[4/3] overflow-hidden bg-muted">
                   <img
-                    src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-                    alt={video.title}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    src={photo.src}
+                    alt={photo.alt}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="pt-5">
-                  <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">{video.title}</h3>
-                  <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-                    Watch on YouTube
-                  </p>
-                </div>
-              </a>
+              </figure>
             ))}
+          </div>
+          <div className="mt-8 border-t border-border pt-5">
+            <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">Tree Planting Event</h3>
+            <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">TheArkitecktsHub community</p>
+          </div>
+          <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:thin]">
+            {treePlantingVideos.map((video) => (
+              <figure key={video.src} className="w-[min(84vw,28rem)] shrink-0 snap-start overflow-hidden border-b border-border pb-4 sm:w-[28rem]">
+                <video
+                  className="aspect-video w-full bg-muted object-cover"
+                  poster={treePlantingPhotos[video.src.match(/\d+/)?.[0] ? Number(video.src.match(/\d+/)?.[0]) - 1 : 0]?.src}
+                  controls
+                  preload="metadata"
+                  playsInline
+                  src={video.src}
+                >
+                  Your browser does not support this video format.
+                </video>
+                <figcaption className="pt-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+                  {video.title}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+          <div className="mt-12 border-t border-border pt-5">
+            <p className="editorial-label mb-5">Conversations</p>
+            <div className="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+              {featuredVideos.map((video) => (
+                <a
+                  key={video.id}
+                  href={video.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group overflow-hidden border-b border-border bg-transparent pb-5 transition-colors hover:border-primary"
+                >
+                  <div className="aspect-video overflow-hidden bg-muted">
+                    <img
+                      src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
+                      alt={video.title}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                  <div className="pt-5">
+                    <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">{video.title}</h3>
+                    <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+                      Watch on YouTube
+                    </p>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
         </div>
       </section>
