@@ -59,10 +59,43 @@ export default async function HomePage() {
     { src: "/IMG_0211.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
   ]
 
-  const treePlantingVideos = Array.from({ length: 10 }, (_, index) => ({
-    src: `/tree-planting-${String(index + 1).padStart(2, "0")}.mov`,
-    title: `Tree planting event video ${index + 1}`,
-  }))
+  const treePlantingVideos = [
+    {
+      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-01.mov",
+      title: "Tree planting event video 1",
+      poster: treePlantingPhotos[0].src,
+    },
+    {
+      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-03.mov",
+      title: "Tree planting event video 3",
+      poster: treePlantingPhotos[2].src,
+    },
+    {
+      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-04.mov",
+      title: "Tree planting event video 4",
+      poster: treePlantingPhotos[3].src,
+    },
+    {
+      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-05.mov",
+      title: "Tree planting event video 5",
+      poster: treePlantingPhotos[3].src,
+    },
+    {
+      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-06.mov",
+      title: "Tree planting event video 6",
+      poster: treePlantingPhotos[4].src,
+    },
+    {
+      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-07.mov",
+      title: "Tree planting event video 7",
+      poster: treePlantingPhotos[5].src,
+    },
+    {
+      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-09.mov",
+      title: "Tree planting event video 9",
+      poster: treePlantingPhotos[7].src,
+    },
+  ]
 
   const teamMembers = [
     {
@@ -258,9 +291,9 @@ export default async function HomePage() {
               Architecture is rooted in the places and communities we care for. See TheArkitecktsHub in action at our tree-planting event.
             </p>
           </div>
-          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 [scrollbar-width:thin]">
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {treePlantingPhotos.map((photo) => (
-              <figure key={photo.src} className="group w-[min(72vw,18rem)] shrink-0 snap-start overflow-hidden border-b border-border bg-transparent pb-5 sm:w-[18rem]">
+              <figure key={photo.src} className="group overflow-hidden border-b border-border bg-transparent pb-5">
                 <div className="aspect-[4/3] overflow-hidden bg-muted">
                   <img
                     src={photo.src}
@@ -275,12 +308,12 @@ export default async function HomePage() {
             <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">Tree Planting Event</h3>
             <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">TheArkitecktsHub community</p>
           </div>
-          <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 [scrollbar-width:thin]">
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {treePlantingVideos.map((video) => (
-              <figure key={video.src} className="w-[min(84vw,28rem)] shrink-0 snap-start overflow-hidden border-b border-border pb-4 sm:w-[28rem]">
+              <figure key={video.src} className="overflow-hidden border-b border-border pb-4">
                 <video
-                  className="aspect-video w-full bg-muted object-cover"
-                  poster={treePlantingPhotos[video.src.match(/\d+/)?.[0] ? Number(video.src.match(/\d+/)?.[0]) - 1 : 0]?.src}
+                  className="aspect-[4/3] w-full bg-muted object-cover"
+                  poster={video.poster}
                   controls
                   preload="metadata"
                   playsInline
