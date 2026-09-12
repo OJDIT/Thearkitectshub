@@ -65,7 +65,7 @@ export default async function HomePage() {
       title: "Tree planting event video 1",
       poster: treePlantingPhotos[0].src,
     },
-    {
+    {/*
       src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-03.mov",
       title: "Tree planting event video 3",
       poster: treePlantingPhotos[2].src,
@@ -74,7 +74,7 @@ export default async function HomePage() {
       src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-04.mov",
       title: "Tree planting event video 4",
       poster: treePlantingPhotos[3].src,
-    },
+    },*/
     {
       src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-05.mov",
       title: "Tree planting event video 5",
