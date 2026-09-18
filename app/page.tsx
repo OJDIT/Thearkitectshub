@@ -191,7 +191,7 @@ export default async function HomePage() {
               <div className="col-span-3 text-center py-12 text-muted-foreground">
                 {projectsError ? (
                   <div>
-                    <p className="text-sm text-muted-foreground mb-4">Unable to load featured projects at this time.</p>
+                    <p className="text-sm text-muted-foreground mb-4">Unable to load featured projects at this time. Try again later</p>
                     <p className="text-xs text-muted-foreground/70">Our service is temporarily unavailable. Please try again in a few moments.</p>
                   </div>
                 ) : (
