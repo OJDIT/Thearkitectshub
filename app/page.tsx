@@ -7,39 +7,6 @@ import { createClient } from "@/lib/supabase/server"
 
 export default async function HomePage() {
   const supabase = await createClient()
-  const featuredVideos = [
-    {
-      id: "-vXXUSkNLt4",
-      href: "https://youtu.be/-vXXUSkNLt4?si=Qx5aVACLbUNbPqvm",
-      title: "Housing and Young People in Nigeria",
-    },
-    {
-      id: "Dm__H2wozFU",
-      href: "https://youtu.be/Dm__H2wozFU?si=wW9xJxDOZB0_Islm",
-      title: "The Struggles of the Young Architect",
-    },
-    {
-      id: "Dic6aTpHwfs",
-      href: "https://youtu.be/Dic6aTpHwfs?si=5a15j2J2WsPhzbe8",
-      title: "What Exactly is Real Estate Becoming",
-    },
-    {
-      id: "kCBqXBB7DHQ",
-      href: "https://youtu.be/kCBqXBB7DHQ?si=rAnDUeiGbBLEgsC1",
-      title: "The Role of the Architect in Shaping the Future",
-    },
-    {
-      id: "tSFOqlHybs0",
-      href: "https://youtu.be/tSFOqlHybs0?si=fQMVyQ5fWbMSKPMw",
-      title: "Lagos Is Flooding Again! Who’s Really to Blame?",
-    },
-    {
-      id: "YBYRjnSQu3Q",
-      href: "https://youtu.be/YBYRjnSQu3Q?si=Mt8LgPCN6xPd9iAx",
-      title: "Street Interview | Banter POD- TheArkitecktsHub Podcast ",
-    },
-  ]
-
   const treePlantingPhotos = [
     { src: "/tree-planting-01.jpg", alt: "TheArkitecktsHub volunteers planting a palm tree" },
     { src: "/tree-planting-02.jpg", alt: "A participant placing a young tree into the ground" },
@@ -57,44 +24,6 @@ export default async function HomePage() {
     { src: "/IMG_0206.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
     { src: "/IMG_0207.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
     { src: "/IMG_0211.jpg", alt: "TheArkitecktsHub volunteer caring for a tree during the planting event" },
-  ]
-
-  const treePlantingVideos = [
-    {
-      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-01.mov",
-      title: "Tree planting event video 1",
-      poster: treePlantingPhotos[0].src,
-    },/*
-    {
-      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-03.mov",
-      title: "Tree planting event video 3",
-      poster: treePlantingPhotos[2].src,
-    },
-    {
-      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-04.mov",
-      title: "Tree planting event video 4",
-      poster: treePlantingPhotos[3].src,
-    },*/
-    {
-      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-05.mov",
-      title: "Tree planting event video 5",
-      poster: treePlantingPhotos[3].src,
-    },
-    {
-      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-06.mov",
-      title: "Tree planting event video 6",
-      poster: treePlantingPhotos[4].src,
-    },
-    {
-      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-07.mov",
-      title: "Tree planting event video 7",
-      poster: treePlantingPhotos[5].src,
-    },
-    {
-      src: "https://6t8hjppfcyisumjv.public.blob.vercel-storage.com/tree-planting-09.mov",
-      title: "Tree planting event video 9",
-      poster: treePlantingPhotos[7].src,
-    },
   ]
 
   const teamMembers = [
@@ -237,6 +166,8 @@ export default async function HomePage() {
                       <img
                         src={project.cover_image_url || "/placeholder.svg"}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
                         className="h-full w-full object-cover transition-transform group-hover:scale-105"
                       />
                     </div>
@@ -298,6 +229,8 @@ export default async function HomePage() {
                   <img
                     src={photo.src}
                     alt={photo.alt}
+                    loading="lazy"
+                    decoding="async"
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>
@@ -307,53 +240,6 @@ export default async function HomePage() {
           <div className="mt-8 border-t border-border pt-5">
             <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">Tree Planting Event</h3>
             <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">TheArkitecktsHub community</p>
-          </div>
-          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {treePlantingVideos.map((video) => (
-              <figure key={video.src} className="overflow-hidden border-b border-border pb-4">
-                <video
-                  className="aspect-[4/3] w-full bg-muted object-cover"
-                  poster={video.poster}
-                  controls
-                  preload="metadata"
-                  playsInline
-                  src={video.src}
-                >
-                  Your browser does not support this video format.
-                </video>
-                <figcaption className="pt-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-                  {video.title}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          <div className="mt-12 border-t border-border pt-5">
-            <p className="editorial-label mb-5">Conversations</p>
-            <div className="grid grid-cols-1 gap-x-5 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-              {featuredVideos.map((video) => (
-                <a
-                  key={video.id}
-                  href={video.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="group overflow-hidden border-b border-border bg-transparent pb-5 transition-colors hover:border-primary"
-                >
-                  <div className="aspect-video overflow-hidden bg-muted">
-                    <img
-                      src={`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`}
-                      alt={video.title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                  <div className="pt-5">
-                    <h3 className="font-display text-2xl font-semibold tracking-[-0.04em] text-foreground">{video.title}</h3>
-                    <p className="mt-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
-                      Watch on YouTube
-                    </p>
-                  </div>
-                </a>
-              ))}
-            </div>
           </div>
         </div>
       </section>
@@ -378,6 +264,8 @@ export default async function HomePage() {
                         <img
                           src={architect.avatar_url || "/placeholder.svg"}
                           alt={architect.name}
+                          loading="lazy"
+                          decoding="async"
                           className="h-full w-full rounded-full object-cover transition-transform duration-500 group-hover:scale-110"
                         />
                       ) : (
@@ -437,7 +325,7 @@ export default async function HomePage() {
               The people shaping TheArkitecktsHub into a stronger home for architecture, design, and community.
             </p>
           </div>
-          <div className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="mt-10 grid max-w-4xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
             {teamMembers.map((member) => (
               <Card key={member.name} className="group overflow-hidden border-x-0 border-t-0 border-b border-border bg-transparent py-0">
                 <CardContent className="flex h-full flex-col px-0 py-5">
@@ -445,6 +333,8 @@ export default async function HomePage() {
                     <img
                       src={member.imageUrl}
                       alt={member.name}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full rounded-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>

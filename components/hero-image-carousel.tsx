@@ -27,6 +27,7 @@ export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
         <img
           src="/hero-architecture.jpg"
           alt="Contemporary architectural masterpiece"
+          fetchPriority="high"
           className="h-full w-full object-cover"
         />
       </div>
@@ -40,6 +41,8 @@ export function HeroImageCarousel({ images }: HeroImageCarouselProps) {
           key={`${image}-${index}`}
           src={image}
           alt="Featured architecture"
+          loading={index === 0 ? "eager" : "lazy"}
+          decoding="async"
           className={`absolute inset-0 h-full w-full object-cover transition-[opacity,transform] duration-[2200ms] ease-in-out ${
             index === activeIndex ? "scale-105 opacity-100" : "scale-100 opacity-0"
           }`}

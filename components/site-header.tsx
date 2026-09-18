@@ -26,7 +26,7 @@ export function SiteHeader() {
           <Link href="/" className="-m-1 p-1">
             <img src="/logo.png" alt="TheArkitecktsHub" className="h-7 w-7" />
           </Link>
-          <Link href="/" className="hidden sm:block">
+          <Link href="/" className="block">
             <span className="font-display text-[1.35rem] font-semibold tracking-[-0.06em]">TheArkitecktsHub</span>
           </Link>
         </div>
