@@ -107,6 +107,11 @@ Once storage and admin are set up, test the full workflow:
 4. Projects go to admin for review
 5. Once approved, projects appear on public site
 
+### Supabase Email Confirmation Setup
+1. In Supabase, open **Authentication > Sign In / Providers > Auth Providers > Email**, enable **Confirm email**, and set **Email OTP expiration** to `900` seconds (15 minutes). This setting also controls confirmation links, password recovery, and email changes.
+2. Keep **Authentication > Email Templates > Confirm signup** configured to send the confirmation link with `{{ .ConfirmationURL }}`.
+3. Add `http://localhost:3000/auth/callback` and your deployed site's `/auth/callback` URL to **Authentication > URL Configuration > Redirect URLs**.
+
 ### For Admin
 1. Sign in with admin email
 2. Go to `/admin` dashboard

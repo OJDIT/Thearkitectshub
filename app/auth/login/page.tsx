@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Eye, EyeOff } from "lucide-react"
@@ -18,7 +18,17 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [statusMessage, setStatusMessage] = useState<string | null>(null)
   const router = useRouter()
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.get("confirmed") === "1") {
+      setStatusMessage("Email confirmed. You can now sign in.")
+    } else if (params.get("error") === "confirmation") {
+      setError("That confirmation link is invalid or expired. Please request a new one.")
+    }
+  }, [])
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -27,6 +37,7 @@ export default function LoginPage() {
     setError(null)
 
     try {
+      setStatusMessage(null)
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
@@ -84,6 +95,7 @@ export default function LoginPage() {
                     </button>
                   </div>
                 </div>
+                {statusMessage && <p className="text-sm text-green-700" role="status">{statusMessage}</p>}
                 {error && <p className="text-sm text-destructive">{error}</p>}
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? "Signing in..." : "Sign In"}

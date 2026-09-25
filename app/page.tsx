@@ -191,7 +191,7 @@ export default async function HomePage() {
               <div className="col-span-3 text-center py-12 text-muted-foreground">
                 {projectsError ? (
                   <div>
-                    <p className="text-sm text-muted-foreground mb-4">Unable to load featured projects at this time. Try again later</p>
+                    <p className="text-sm text-muted-foreground mb-4">Unable to load featured projects at this time.</p>
                     <p className="text-xs text-muted-foreground/70">Our service is temporarily unavailable. Please try again in a few moments.</p>
                   </div>
                 ) : (
@@ -222,7 +222,7 @@ export default async function HomePage() {
               Architecture is rooted in the places and communities we care for. See TheArkitecktsHub in action at our tree-planting event.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {treePlantingPhotos.map((photo) => (
               <figure key={photo.src} className="group overflow-hidden border-b border-border bg-transparent pb-5">
                 <div className="aspect-[4/3] overflow-hidden bg-muted">
@@ -325,7 +325,7 @@ export default async function HomePage() {
               The people shaping TheArkitecktsHub into a stronger home for architecture, design, and community.
             </p>
           </div>
-          <div className="mt-10 grid max-w-4xl grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid max-w-4xl grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-2 lg:grid-cols-4">
             {teamMembers.map((member) => (
               <Card key={member.name} className="group overflow-hidden border-x-0 border-t-0 border-b border-border bg-transparent py-0">
                 <CardContent className="flex h-full flex-col px-0 py-5">
